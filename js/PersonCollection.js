@@ -36,9 +36,7 @@ var PersonCollection = (function() {
     function all() {
         var ids = Object.getOwnPropertyNames(personCollection) || [];
 
-        return ids.map(function(id) {
-            return findById(id);
-        });
+        return ids.map(findById);
     }
 
     function findById(id) {
