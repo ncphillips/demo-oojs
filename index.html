@@ -1,0 +1,44 @@
+<html>
+  <head>
+    <title>Person Lists</title>
+    <script type="text/javascript" src="js/jquery.js"></script>
+    <script type="text/javascript" src="js/PersonCollection.js"></script>
+    <script type="text/javascript" src="js/PersonListApp.js"></script>
+    <script type="text/javascript" src="js/personlist.js"></script>
+  </head>
+  <body>
+
+    <h1>Person List</h1>
+
+    <table id="person-table">
+
+      <thead>
+        <tr>
+          <td>Name</td>
+          <td>Year of Birth</td>
+          <td></td>
+        </tr>
+      </thead>
+
+      <tbody>
+        <!-- Rows For Each Person
+        <tr>
+          <td>{{name}}</td>
+          <td>{{birthYear}}</td>
+          <td><input type="button" personId="{{id}}" class="remove-person"j value="Remove">
+        </tr>  
+        -->
+      </tbody>
+
+      <!-- Add Person Form-->
+      <tfoot>
+        <tr>
+          <td><input type="text"   placeholder="Name" id="new-person-name"></td>
+          <td><input type="number" placeholder="Y.O.B." id="new-person-age" min=1900 max=2015></td>
+          <td><input type="button" value="Add" id="add-person">
+        </tr>
+      </tfoot>
+
+    </table>
+  </body>
+</html>
