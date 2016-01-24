@@ -4,12 +4,19 @@
  * Allows users to add and remove users from an table.
  */
 var PersonListApp = (function() {
+    var defaults = {
+        fields: ['name', 'birthYear', 'removeButton'],
+        tableId: "person-table",
+        removePersonClass: "remove-person"
+    };
+
     function PLA(options) {
         options = options || {};
 
-        this.tableId = options.tableId || "person-table";
-        this.removePersonClass = options.removePersonClass || "remove-person";
         this.persons = [];
+        this.fields = options.fields || defaults.fields;
+        this.tableId = options.tableId || defaults.tableId;
+        this.removePersonClass = options.removePersonClass || defaults.removePersonClass;
 
         // Bind just makes sure that `refresh` is called
         // with the app as `this`.
@@ -31,22 +38,22 @@ var PersonListApp = (function() {
 
         // Here we're using bind to make sure `createPersonRow` is always called
         // with `this.removePersonClass` in the first argument position.
-        var personRows = this.persons.map(createPersonRow.bind(null, this.removePersonClass));
+        var personRows = this.persons.map(createPersonRow.bind(this));
 
         setPersonTableRows(this.tableId, personRows);
     }
 
-    function createPersonRow(removePersonClass, person) {
-        return(
-            "<tr>" +
-                "<td>" + person.name + "</td>" +
-                "<td>" + person.birthYear+ "</td>" +
-                "<td>" +
-                    "<input type='button' class='" + removePersonClass +
-                        "' value='Remove' personId='" + person.id + "'>" +
-                "</td>" +
-            "</tr>"
-        );
+    function createPersonRow(person) {
+        var columns = this.fields.map(createPersonColumn.bind(this, person));
+        return "<tr>" + columns.join() +"</tr>";
+    }
+
+    function createPersonColumn(person, field) {
+        if (field === 'removeButton')
+            return "<td><input type='button' class='" + this.removePersonClass +
+                    "' value='Remove' personId='" + person.id + "'></td>";
+
+        return "<td>" + person[field] + "</td>";
     }
 
     function setPersonTableRows(tableId, personRows) {
