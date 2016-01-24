@@ -10,7 +10,7 @@ $(function() {
     var app = new PersonListApp();
 
 
-    $("#add-person").click(onAddPerson);
+    $("form").submit(onAddPerson);
 
     // Makes sure it catches dynamically added elements.
     $("body").on('click', '.remove-person', onRemovePerson);
@@ -22,6 +22,8 @@ $(function() {
     }
 
     function onAddPerson(e) {
+        e.preventDefault()
+
         var name = $("#new-person-name").val();
         var birthYear = $("#new-person-age").val();
 
