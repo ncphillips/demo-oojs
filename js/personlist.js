@@ -7,7 +7,7 @@
 $(function() {
     "use strict";
 
-    var app = new PersonListView();
+    var personListView = new PersonListView(PersonCollection);
 
 
     $("form").submit(onAddPerson);

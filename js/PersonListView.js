@@ -10,7 +10,7 @@ var PersonListView = (function() {
         removePersonClass: "remove-person"
     };
 
-    function PersonListView(options) {
+    function PersonListView(collection, options) {
         options = options || {};
 
         this.persons = [];
@@ -20,7 +20,7 @@ var PersonListView = (function() {
 
         // Bind just makes sure that `refresh` is called
         // with the app as `this`.
-        PersonCollection.addListener(refresh.bind(this));
+        collection.addListener(refresh.bind(this));
     }
 
     PersonListView.prototype.refresh = refresh;
