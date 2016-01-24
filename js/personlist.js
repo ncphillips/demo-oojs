@@ -7,7 +7,7 @@
 $(function() {
     "use strict";
 
-    var app = new PersonListApp();
+    var app = new PersonListView();
 
 
     $("form").submit(onAddPerson);
@@ -18,7 +18,7 @@ $(function() {
     function onRemovePerson(e) {
         var personId = e.target.getAttribute("personId");
 
-        app.removePerson(personId);
+        PersonCollection.findById(personId).remove();
     }
 
     function onAddPerson(e) {
@@ -27,7 +27,7 @@ $(function() {
         var name = $("#new-person-name").val();
         var birthYear = $("#new-person-age").val();
 
-        app.addPerson(name, birthYear);
+        PersonCollection.create(name, birthYear);
     }
 
 });
