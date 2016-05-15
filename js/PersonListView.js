@@ -1,7 +1,7 @@
 /**
- * PersonListApp.js
+ * PersonListView.js
  *
- * Allows users to add and remove users from an table.
+ * Listens for changes to a Person collection and updates the DOM accordingly.
  */
 var PersonListView = (function() {
     var defaults = {
@@ -18,22 +18,23 @@ var PersonListView = (function() {
         this.tableId = options.tableId || defaults.tableId;
         this.removePersonClass = options.removePersonClass || defaults.removePersonClass;
 
-        // Bind just makes sure that `refresh` is called
-        // with the app as `this`.
         collection.addListener(refresh.bind(this));
     }
 
-    PersonListView.prototype.refresh = refresh;
-
-    // Private Functions
-    function refresh() {
+    /**
+     * Methods
+     */ 
+    PersonListView.prototype.refresh = function() {
         this.persons = PersonCollection.all();
 
         var personRows = this.persons.map(createPersonRow, this);
 
         setPersonTableRows(this.tableId, personRows);
-    }
+    };
 
+    /**
+     * Private Functions
+     */ 
     function createPersonRow(person) {
         var columns = this.fields.map(createPersonColumn.bind(this, person));
         return "<tr>" + columns.join() +"</tr>";
