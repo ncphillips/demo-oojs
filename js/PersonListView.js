@@ -29,9 +29,7 @@ var PersonListView = (function() {
     function refresh() {
         this.persons = PersonCollection.all();
 
-        // Here we're using bind to make sure `createPersonRow` is always called
-        // with `this.removePersonClass` in the first argument position.
-        var personRows = this.persons.map(createPersonRow.bind(this));
+        var personRows = this.persons.map(createPersonRow, this);
 
         setPersonTableRows(this.tableId, personRows);
     }
