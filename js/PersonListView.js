@@ -41,10 +41,14 @@ var PersonListView = (function() {
 
     function createPersonColumn(person, field) {
         if (field === 'removeButton')
-            return "<td><input type='button' class='" + this.removePersonClass +
-                    "' value='Remove' personId='" + person.id + "'></td>";
+            return createRemoveButton(person, this.removePersonClass);
 
         return "<td>" + person[field] + "</td>";
+    }
+    
+    function createRemoveButton(person, removePersonClass) {
+         return "<td><input type='button' class='" + removePersonClass +
+                    "' value='Remove' personId='" + person.id + "'></td>";
     }
 
     function setPersonTableRows(tableId, personRows) {
