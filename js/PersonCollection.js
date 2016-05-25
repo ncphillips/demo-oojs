@@ -1,64 +1,58 @@
 /**
- * Person.js
+ * PersonCollection.js
  *
  * Represents a collection of Persons.
  */
 var PersonCollection = (function() {
     "use strict";
 
-    // Private Static Variables
+    /**
+     * Private Static Variables
+     */
     var lastId = 0;
     var personCollection = { };
     var listeners = [ ];
 
-    // Person
-    function Person(name, birthYear) {
-        this.id = null;
-        this.name = name;
-        this.birthYear = birthYear;
-    }
+    /**
+     * Singleton Object (Oh noo)
+     */
+    var PersonCollection = {};
 
-    Person.prototype.save = function() {
-        savePerson(this);
-    }
-
-    Person.prototype.remove = function() {
-        removePerson(this);
-    }
-
-    Person.prototype.toString = function() {
-        return this.name + " " + this.birthYear;
-    }
-
-
-    // Person Collection Methods
-    // Query
-    function all() {
+    /**
+     * Public Static Methods
+     */
+    PersonCollection.all = function() {
         var ids = Object.getOwnPropertyNames(personCollection) || [];
 
-        return ids.map(findById);
-    }
+        return ids.map(this.findById);
+    };
 
-    function findById(id) {
+    PersonCollection.findById = function(id) {
         return personCollection[id];
-    }
+    };
 
-    // Persistence
-    function create(name, birthYear) {
-        var person = new Person(name, birthYear);
-        savePerson(person);
-        return person;
-    }
-
-    function savePerson(person) {
+    PersonCollection.save = function(person) {
         if (!person.id)
-            createPerson(person);
+            addPerson(person);
         else
             updatePerson(person);
         notify();
-    }
+    };
 
-    function createPerson(person) {
+    PersonCollection.remove = function(person) {
+        delete personCollection[person.id];
+        notify();
+    };
+
+    PersonCollection.addListener = function(listener) {
+        listeners.push(listener);
+        listener();
+    };
+
+    /**
+     * Private Static Methods
+     */
+    function addPerson(person) {
         person.id = generateNextId();
         personCollection[person.id] = person;
     }
@@ -67,35 +61,27 @@ var PersonCollection = (function() {
         personCollection[person.id] = person;
     }
 
-    function removePerson(person) {
-        delete personCollection[person.id];
-        notify();
-    }
-
     function generateNextId() {
         return ++lastId;
     }
 
-    // Events
     function notify() {
         listeners.forEach(function(listener) {
-            listener();
+            try{
+                listener();
+            } catch (error) {
+                console.log(error);
+            }
         });
     }
 
-    function addListener(listener) {
-        listeners.push(listener);
-        listener();
-    }
+    /**
+     * Default Data
+     */
+    PersonCollection.save(new Person("Nolan", 1992));
 
-    // Default Data
-    create("Nolan", 1992);
-
-    return {
-        create: create,
-        all: all,
-        findById: findById,
-        addListener: addListener
-    };
-
+    /**
+     * Module Definition
+     */
+    return PersonCollection;
 })();

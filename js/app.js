@@ -9,25 +9,27 @@ $(function() {
 
     var personListView = new PersonListView(PersonCollection);
 
-
     $("form").submit(onAddPerson);
 
-    // Makes sure it catches dynamically added elements.
     $("body").on('click', '.remove-person', onRemovePerson);
 
     function onRemovePerson(e) {
         var personId = e.target.getAttribute("personId");
 
-        PersonCollection.findById(personId).remove();
+        var person = PersonCollection.findById(personId);
+
+        PersonCollection.remove(person);
     }
 
     function onAddPerson(e) {
-        e.preventDefault()
+        e.preventDefault();
 
         var name = $("#new-person-name").val();
         var birthYear = $("#new-person-age").val();
 
-        PersonCollection.create(name, birthYear);
+        var person = new Person(name, birthYear);
+
+        PersonCollection.save(person);
     }
 
 });
