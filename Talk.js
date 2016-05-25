@@ -403,25 +403,29 @@ bob.getPrivateVariables(); // Uncaught ReferneceError: privateVariables is not d
  */
 var Person = (function() {
   function Person(name, age) {
-      this.name = name;
-      this.age = age;
+    this.name = name;
+    this.age = age;
 
-      var privateVariables = { password: null }
+    var privateVariables = { password: null }
 
-      this.getPassword = function() {return privateVariables.password;}
-      this.setPassword = privateSetPassword.bind({person: this, privateVariables: privateVariables});
-    }
+    this.isPassword = function() { return privateVariables.password; };
+    this.setPassword = privateSetPassword.bind(this, privateVariables);
+  }
+    
+  function isPassword(privateVariables, password){
+      return privateVariables.password === hashPassword(password);
+  }
+ 
+  function privateSetPassword(privateVariables, password) {
+   if (isBadPassword(password))
+     throw new Error("That's a bad password.");
 
-  function privateSetPassword(password) {
-       if (isBadPassword(password))
-         throw new Error("That's a bad password.");
-
-       this.privateVariables.password = hashPassword(password);
+     privateVariables.password = hashPassword(password);
   }
 
-  function isBadPassword(password) { /** return boolean */ }
+  function isBadPassword(password) { /** return boolean */ return false; }
 
-  function hashPassword(password) { /** return string */ }
+  function hashPassword(password) { /** return string */ return password; }
 
   return Person
 })();
