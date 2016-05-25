@@ -31,6 +31,5 @@ $(function() {
 
         PersonCollection.save(person);
     }
-
 });
 
