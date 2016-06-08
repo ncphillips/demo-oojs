@@ -36,7 +36,7 @@ var PersonListView = (function() {
 
         var personRows = this.persons.map(createPersonRow, this);
 
-        setPersonTableRows(this.tableId, personRows);
+        createPersonTable(this.tableId, personRows);
     };
 
     /**
@@ -64,7 +64,7 @@ var PersonListView = (function() {
                     "' value='Remove' personId='" + person.id + "'></td>";
     }
 
-    function setPersonTableRows(tableId, personRows) {
+    function createPersonTable(tableId, personRows) {
         var tbodySelector = "#" + tableId + " tbody";
 
         $(tbodySelector).html(personRows.join());

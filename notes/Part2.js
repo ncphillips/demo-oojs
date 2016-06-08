@@ -22,6 +22,7 @@ function Dog(name, sound) {
 
 Dog.prototype.speak = function(n){
     n = n || 1;
+    
     for (var i=0; i < n; i ++) {
         console.log(this.sound);
     }
@@ -32,7 +33,7 @@ Dog.prototype.speak = function(n){
  * Immediately Invoked Anonymous Functions
  */
 
-(function() { console.log("Hello from IIAF!"})();
+(function() { console.log("Hello from IIAF!");})();
 
 /**
  * Private Constants
@@ -41,15 +42,16 @@ Person = (function() {
 
     MAX_AGE = 110;
 
-    return function Person (name, age) {
+    function Person (name, age) {
         if (age > MAX_AGE)
             throw new Error("He can't be that old!");
 
         this.name = name;
         this.age = age;
-    };
+    }
 
-})
+    return Person;
+});
 
 /**
  * Private Methods
@@ -58,20 +60,18 @@ Person = (function() {
     function Person (name, age) {
         this.name = name;
         this.age = age;
-    };
+    }
 
     Person.prototype.speak = function() {
-        var message = thinkOfSomethingToSay(this);
-        console.log(message);
-        return message;
-    }
+        return thinkOfSomethingToSay(this);
+    };
 
     function thinkOfSomethingToSay(person) {
         return "Hi, I'm " + person.name;
     }
 
     return Person;
-})
+});
 
 bob = new Person("byyob", 25);
 bob.speak(); // Hi, I'm bob
@@ -88,11 +88,11 @@ Person = (function() {
 
         this.isAlive = function() {
             return privateVariables.isAlive;
-        }
+        };
 
         this.kill = function() {
             privateVariables.isAlive = false;
-        }
+        };
     }
 
     return Person

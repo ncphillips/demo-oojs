@@ -14,7 +14,7 @@ var PersonCollection = (function() {
     var listeners = [ ];
 
     /**
-     * Singleton Object (Oh noo)
+     * Singleton Object
      */
     var PersonCollection = {};
 
